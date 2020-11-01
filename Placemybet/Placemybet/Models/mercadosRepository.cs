@@ -34,5 +34,24 @@ namespace Placemybet.Models
             con.Close();
             return me;
         }
+        internal List<MercadosDTO> RetrieveDTO()
+        {
+            MySqlConnection con = Connect();
+            MySqlCommand command = con.CreateCommand();
+            command.CommandText = "select * from Mercados";
+
+            con.Open();
+            MySqlDataReader res = command.ExecuteReader();
+
+            List<MercadosDTO> me = new List<MercadosDTO>();
+            MercadosDTO m = null;
+            while (res.Read())
+            {
+                m = new MercadosDTO(res.GetFloat(2), res.GetFloat(3), res.GetFloat(4));
+                me.Add(m);
+            }
+            con.Close();
+            return me;
+        }
     }
 }

@@ -34,5 +34,25 @@ namespace Placemybet.Models
             con.Close();
             return ev;
         }
+
+        internal List<EventosDTO> RetrieveDTO()
+        {
+            MySqlConnection con = Connect();
+            MySqlCommand command = con.CreateCommand();
+            command.CommandText = "select * from Eventos";
+
+            con.Open();
+            MySqlDataReader res = command.ExecuteReader();
+
+            List<EventosDTO> ev = new List<EventosDTO>();
+            EventosDTO e = null;
+            while (res.Read())
+            {
+                e = new EventosDTO(res.GetString(1), res.GetString(2), res.GetString(3));
+                ev.Add(e);
+            }
+            con.Close();
+            return ev;
+        }
     }
 }
